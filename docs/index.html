@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sports vs. Politics | NLP Classifier</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Fira+Code:wght@400&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1e40af;
+            --secondary: #64748b;
+            --bg-body: #f8fafc;
+            --bg-card: #ffffff;
+            --text-main: #334155;
+            --text-heading: #0f172a;
+            --border: #e2e8f0;
+            --success: #10b981;
+            --warning: #f59e0b;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            line-height: 1.7;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Header / Hero */
+        header {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: white;
+            padding: 4rem 1rem;
+            text-align: center;
+            clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+        }
+
+        header h1 {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+        }
+
+        header p {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        /* Navigation */
+        nav {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: -2rem;
+            margin-bottom: 3rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        nav a {
+            background: white;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            color: var(--text-heading);
+            font-weight: 600;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        nav a:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            color: var(--primary);
+        }
+
+        /* Sections */
+        section {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 2.5rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--border);
+        }
+
+        h2 {
+            color: var(--text-heading);
+            font-size: 1.8rem;
+            border-bottom: 2px solid var(--primary);
+            display: inline-block;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+        }
+
+        h3 {
+            color: var(--text-heading);
+            font-size: 1.3rem;
+            margin-top: 2rem;
+        }
+
+        /* Tech Stack Cards */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .card {
+            background: #f1f5f9;
+            padding: 1.5rem;
+            border-radius: 12px;
+            border-left: 4px solid var(--primary);
+        }
+
+        .card h4 {
+            margin: 0 0 0.5rem 0;
+            color: var(--text-heading);
+        }
+
+        /* Code Blocks */
+        pre {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 1.5rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        th,
+        td {
+            padding: 1rem;
+            text-align: center;
+        }
+
+        th {
+            background-color: var(--primary);
+            color: white;
+            font-weight: 600;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8fafc;
+        }
+
+        td:first-child {
+            text-align: left;
+            font-weight: 600;
+            color: var(--text-heading);
+        }
+
+        /* Metrics */
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 50px;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        .badge-best {
+            background-color: #dcfce7;
+            color: #166534;
+        }
+
+        .badge-good {
+            background-color: #dbeafe;
+            color: #1e40af;
+        }
+
+        .badge-avg {
+            background-color: #fef3c7;
+            color: #92400e;
+        }
+
+        /* Confusion Matrix Style */
+        .confusion-matrix {
+            border: none;
+            box-shadow: none;
+            width: auto;
+            margin: 0 auto;
+        }
+
+        .confusion-matrix td,
+        .confusion-matrix th {
+            border: 1px solid #cbd5e1;
+            width: 80px;
+            height: 80px;
+        }
+
+        .confusion-matrix .correct {
+            background-color: #dcfce7;
+            color: #166534;
+            font-weight: bold;
+        }
+
+        .confusion-matrix .wrong {
+            background-color: #fee2e2;
+            color: #991b1b;
+        }
+
+        footer {
+            text-align: center;
+            padding: 4rem 0;
+            color: var(--secondary);
+            font-size: 0.9rem;
+        }
+
+        footer a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>Sports vs. Politics</h1>
+        <p>A Machine Learning Analysis of Textual Patterns</p>
+    </header>
+
+    <div class="container">
+
+        <nav>
+            <a href="#overview">Overview</a>
+            <a href="#data">The Data</a>
+            <a href="#methodology">Methodology</a>
+            <a href="#results">Results</a>
+        </nav>
+
+        <section id="overview">
+            <h2>🔎 Project Overview</h2>
+            <p>
+                This project implements a complete end-to-step <strong>Natural Language Processing (NLP)</strong>
+                pipeline
+                to classify news articles into two categories: <em>Sports</em> and <em>Politics</em>.
+                By leveraging live data from RSS feeds and comparing multiple feature extraction techniques,
+                we explore what makes these two domains linguistically distinct.
+            </p>
+        </section>
+
+        <section id="data">
+            <h2>📡 Data Acquisition</h2>
+            <p>
+                Instead of using a static CSV, we built a custom scraper to fetch real-time data from
+                trusted news sources.
+            </p>
+            <div class="grid">
+                <div class="card">
+                    <h4>⚽ Sports Sources</h4>
+                    <ul>
+                        <li>ESPN News Feed</li>
+                        <li>BBC Sport RSS</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h4>⚖️ Politics Sources</h4>
+                    <ul>
+                        <li>BBC Politics</li>
+                        <li>NY Times Politics</li>
+                    </ul>
+                </div>
+            </div>
+            <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--secondary);">
+                <em>Total Articles Collected: 159 (110 Sports, 49 Politics)</em>
+            </p>
+        </section>
+
+        <section id="methodology">
+            <h2>⚙️ Methodology</h2>
+
+            <h3>1. Text Preprocessing</h3>
+            <p>Raw text is noisy. We implemented a cleaning pipeline using <code>NLTK</code> and Regex:</p>
+            <pre>
+def clean_text(text):
+    text = text.lower()                 # Normalize case
+    text = re.sub(r"http\S+", "", text) # Remove URLs
+    text = re.sub(r"[^a-z\s]", "", text)# Keep only letters
+    # Remove stopwords (e.g. "the", "is", "in")
+    tokens = [t for t in text.split() if t not in STOP_WORDS]
+    return " ".join(tokens)</pre>
+
+            <h3>2. Feature Extraction</h3>
+            <p>We compared two ways to turn text into numbers:</p>
+            <div class="grid">
+                <div class="card">
+                    <h4>Bag of Words (BoW)</h4>
+                    <p>Simply counts how many times each word appears. Ignores order.</p>
+                </div>
+                <div class="card">
+                    <h4>TF-IDF (1-2 grams)</h4>
+                    <p>Weighs words by uniqueness. Includes bigrams (e.g., "Prime Minister").</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="results">
+            <h2>🏆 Performance Results</h2>
+            <p>
+                We trained three models: <strong>Naive Bayes</strong>, <strong>Logistic Regression</strong>,
+                and <strong>SVM</strong>. Here is the accuracy on the test set:
+            </p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Model</th>
+                        <th>Bag of Words</th>
+                        <th>TF-IDF</th>
+                        <th>Verdict</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Naive Bayes</td>
+                        <td><span class="badge badge-best">100%</span></td>
+                        <td><span class="badge badge-avg">78%</span></td>
+                        <td>Perfect separation with simple counts.</td>
+                    </tr>
+                    <tr>
+                        <td>Logistic Regression</td>
+                        <td><span class="badge badge-good">97%</span></td>
+                        <td><span class="badge badge-avg">78%</span></td>
+                        <td>Strong, but struggled with TF-IDF noise.</td>
+                    </tr>
+                    <tr>
+                        <td>SVM</td>
+                        <td><span class="badge badge-good">97%</span></td>
+                        <td><span class="badge badge-good">97%</span></td>
+                        <td>Most robust across all features.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Why did Naive Bayes + BoW win?</h3>
+            <p>
+                The vocabulary difference is stark. Sports articles are filled with specialized terms
+                like <em>"score", "win", "league", "coach"</em>, while Politics articles consistently
+                use <em>"election", "vote", "party", "minister"</em>.
+                Detailed confusion matrix for the best model:
+            </p>
+
+            <table class="confusion-matrix">
+                <tr>
+                    <td style="border:none;"></td>
+                    <th>Sports (Pred)</th>
+                    <th>Politics (Pred)</th>
+                </tr>
+                <tr>
+                    <th>Sports (Actual)</th>
+                    <td class="correct">22</td>
+                    <td class="wrong">0</td>
+                </tr>
+                <tr>
+                    <th>Politics (Actual)</th>
+                    <td class="wrong">0</td>
+                    <td class="correct">10</td>
+                </tr>
+            </table>
+
+        </section>
+
+        <section>
+            <h2>📝 Conclusion & Limitations</h2>
+            <p>
+                This project demonstrates that for highly distinct topics, simple methods often outperform complex ones.
+                However, our <strong>small dataset (159 docs)</strong> likely led to overfitting in some TF-IDF models.
+                In a real-world scenario, we would need thousands of documents to truly validate these metrics.
+            </p>
+        </section>
+
+    </div>
+
+    <footer>
+        <p><strong>Prasangeet Dongre</strong> | Roll No: B23CH1033</p>
+        <p>Created with Python, Scikit-Learn, and ☕ for NLU Assignment.</p>
+        <p><a href="https://github.com/yourusername/sports-politics-classifier">View Source Code</a></p>
+    </footer>
+
+</body>
+
+</html>
