@@ -7,11 +7,17 @@ import time
 SPORT_FEEDS = [
     "https://www.espn.com/espn/rss/news",
     "https://feeds.bbci.co.uk/sport/rss.xml",
+    "http://www.skysports.com/rss/12040",  # Sky Sports Football
+    "https://www.theguardian.com/sport/rss",
+    "https://sports.yahoo.com/rss/",
 ]
 
 POLITICS_FEEDS = [
     "http://feeds.bbci.co.uk/news/politics/rss.xml",
     "https://rss.nytimes.com/services/xml/rss/nyt/Politics.xml",
+    "https://www.theguardian.com/politics/rss",
+    "https://rss.politico.com/politics-news.xml",
+    "https://feeds.feedburner.com/reuters/politicsNews",
 ]
 
 
@@ -30,7 +36,7 @@ def extract_article_text(url):
         return ""
 
 
-def collect_from_feeds(feed_list, label, writer, limit_per_feed=150):
+def collect_from_feeds(feed_list, label, writer, limit_per_feed=250):
     for feed_url in feed_list:
         print(f"\nReading feed: {feed_url}")
         feed = feedparser.parse(feed_url)

@@ -31,7 +31,7 @@
 \maketitle
 
 \begin{abstract}
-This report details the design and implementation of a text classification system capable of distinguishing between sports-related and politics-related documents. Using a dataset collected from RSS feeds, we explore the efficacy of Bag-of-Words (BoW) and Term Frequency-Inverse Document Frequency (TF-IDF) feature representations across three machine learning algorithms: Naive Bayes, Logistic Regression, and Support Vector Machines (SVM). Our experiments demonstrate that simple frequency-based models (BoW) combined with Naive Bayes can achieve perfect accuracy on this specific domain, highlighting the distinct lexical properties of the two categories.
+This report details the design and implementation of a text classification system capable of distinguishing between sports-related and politics-related documents. Using a dataset collected from RSS feeds, we explore the efficacy of Bag-of-Words (BoW) and Term Frequency-Inverse Document Frequency (TF-IDF) feature representations across three machine learning algorithms: Naive Bayes, Logistic Regression, and Support Vector Machines (SVM). Our experiments demonstrate that linear models like Logistic Regression and Support Vector Machines (SVM) combined with Bag-of-Words (BoW) features achieve peak performance of 98.67\% accuracy, highlighting the distinct lexical properties of the two categories even as the dataset size increases.
 \end{abstract}
 
 \tableofcontents
@@ -62,20 +62,20 @@ A Python script utilizing the \texttt{feedparser} and \texttt{BeautifulSoup} lib
 \end{enumerate}
 
 \section{Dataset Description and Analysis}
-The final dataset consists of \textbf{159 documents}. While small, it provides a clear separation of topics suitable for demonstrating classification techniques.
+The final dataset consists of \textbf{372 documents}. This larger collection provides a more robust foundation for training and evaluating text classification models.
 
 \subsection{Class Distribution}
 The dataset is imbalanced, with a bias towards sports articles:
 \begin{itemize}
-    \item \textbf{Sports}: 110 documents (approx. 69\%)
-    \item \textbf{Politics}: 49 documents (approx. 31\%)
+    \item \textbf{Sports}: 213 documents (approx. 57\%)
+    \item \textbf{Politics}: 159 documents (approx. 43\%)
 \end{itemize}
 To mitigate this during training, we employed stratified sampling for our train-test splits to ensure both sets reflected this distribution.
 
 \subsection{Statistical Analysis}
 \begin{itemize}
-    \item \textbf{Average Document Length}: 874 words.
-    \item \textbf{Vocabulary Size (BoW)}: 13,236 unique tokens.
+    \item \textbf{Average Document Length}: 448 words.
+    \item \textbf{Vocabulary Size (BoW)}: 16,635 unique tokens.
     \item \textbf{Vocabulary Size (TF-IDF, including bigrams)}: 50,000 features.
 \end{itemize}
 The high vocabulary size relative to the number of documents suggests a sparse feature space, which linear models like SVM and Naive Bayes handle well.
@@ -130,9 +130,9 @@ The dataset was split into training (80\%) and testing (20\%) sets.
 \toprule
 \textbf{Model} & \textbf{BoW (Unigrams)} & \textbf{TF-IDF (1-2 grams)} \\
 \midrule
-Naive Bayes & \textbf{1.00} & 0.78 \\
-Logistic Regression & 0.97 & 0.78 \\
-SVM & 0.97 & 0.97 \\
+Naive Bayes & 0.97 & 0.96 \\
+Logistic Regression & \textbf{0.99} & 0.97 \\
+SVM & \textbf{0.99} & 0.97 \\
 \bottomrule
 \end{tabular}
 \caption{Model Accuracy: Comparing Unigram vs N-gram Features}
@@ -152,10 +152,10 @@ Beyond raw accuracy, we examine precision, recall, and F1-score for each class t
 \cmidrule(lr){2-4} \cmidrule(lr){5-7}
  & Precision & Recall & F1 & Precision & Recall & F1 \\
 \midrule
-Politics & 1.00 & 1.00 & 1.00 & 1.00 & 0.30 & 0.46 \\
-Sports & 1.00 & 1.00 & 1.00 & 0.76 & 1.00 & 0.86 \\
+Politics & 1.00 & 0.94 & 0.97 & 1.00 & 0.91 & 0.95 \\
+Sports & 0.96 & 1.00 & 0.98 & 0.93 & 1.00 & 0.97 \\
 \midrule
-\textbf{Accuracy} & \multicolumn{3}{c}{\textbf{1.00}} & \multicolumn{3}{c}{\textbf{0.78}} \\
+\textbf{Accuracy} & \multicolumn{3}{c}{\textbf{0.97}} & \multicolumn{3}{c}{\textbf{0.96}} \\
 \bottomrule
 \end{tabular}
 \caption{Naive Bayes Classification Metrics}
@@ -172,10 +172,10 @@ Sports & 1.00 & 1.00 & 1.00 & 0.76 & 1.00 & 0.86 \\
 \cmidrule(lr){2-4} \cmidrule(lr){5-7}
  & Precision & Recall & F1 & Precision & Recall & F1 \\
 \midrule
-Politics & 1.00 & 0.90 & 0.95 & 1.00 & 0.30 & 0.46 \\
-Sports & 0.96 & 1.00 & 0.98 & 0.76 & 1.00 & 0.86 \\
+Politics & 1.00 & 0.97 & 0.98 & 1.00 & 0.94 & 0.97 \\
+Sports & 0.98 & 1.00 & 0.99 & 0.96 & 1.00 & 0.98 \\
 \midrule
-\textbf{Accuracy} & \multicolumn{3}{c}{\textbf{0.97}} & \multicolumn{3}{c}{\textbf{0.78}} \\
+\textbf{Accuracy} & \multicolumn{3}{c}{\textbf{0.99}} & \multicolumn{3}{c}{\textbf{0.97}} \\
 \bottomrule
 \end{tabular}
 \caption{Logistic Regression Classification Metrics}
@@ -192,10 +192,10 @@ Sports & 0.96 & 1.00 & 0.98 & 0.76 & 1.00 & 0.86 \\
 \cmidrule(lr){2-4} \cmidrule(lr){5-7}
  & Precision & Recall & F1 & Precision & Recall & F1 \\
 \midrule
-Politics & 1.00 & 0.90 & 0.95 & 1.00 & 0.90 & 0.95 \\
-Sports & 0.96 & 1.00 & 0.98 & 0.96 & 1.00 & 0.98 \\
+Politics & 1.00 & 0.97 & 0.98 & 1.00 & 0.94 & 0.97 \\
+Sports & 0.98 & 1.00 & 0.99 & 0.96 & 1.00 & 0.98 \\
 \midrule
-\textbf{Accuracy} & \multicolumn{3}{c}{\textbf{0.97}} & \multicolumn{3}{c}{\textbf{0.97}} \\
+\textbf{Accuracy} & \multicolumn{3}{c}{\textbf{0.99}} & \multicolumn{3}{c}{\textbf{0.97}} \\
 \bottomrule
 \end{tabular}
 \caption{SVM Classification Metrics}
@@ -205,32 +205,32 @@ Sports & 0.96 & 1.00 & 0.98 & 0.96 & 1.00 & 0.98 \\
 \subsection{Confusion Matrices}
 Confusion matrices provide a detailed breakdown of correct and incorrect predictions for each class.
 
-\subsubsection{Best Model: Naive Bayes + Bag of Words}
+\subsubsection{Best Models: Logistic Regression \& SVM (BoW)}
 \begin{table}[H]
 \centering
 \begin{tabular}{cc|cc}
 \multicolumn{2}{c}{} & \multicolumn{2}{c}{\textbf{Predicted}} \\
 \multicolumn{2}{c|}{} & Politics & Sports \\
 \cline{2-4}
-\multirow{2}{*}{\textbf{Actual}} & Politics & 10 & 0 \\
- & Sports & 0 & 22 \\
+\multirow{2}{*}{\textbf{Actual}} & Politics & 31 & 1 \\
+ & Sports & 0 & 43 \\
 \end{tabular}
-\caption{Confusion Matrix: Naive Bayes + BoW (Perfect Classification)}
-\label{tab:cm_nb_bow}
+\caption{Confusion Matrix: LogReg/SVM + BoW (98.67\% Accuracy)}
+\label{tab:cm_best_bow}
 \end{table}
 
-\subsubsection{Naive Bayes + TF-IDF}
+\subsubsection{Naive Bayes + BoW}
 \begin{table}[H]
 \centering
 \begin{tabular}{cc|cc}
 \multicolumn{2}{c}{} & \multicolumn{2}{c}{\textbf{Predicted}} \\
 \multicolumn{2}{c|}{} & Politics & Sports \\
 \cline{2-4}
-\multirow{2}{*}{\textbf{Actual}} & Politics & 3 & 7 \\
- & Sports & 0 & 22 \\
+\multirow{2}{*}{\textbf{Actual}} & Politics & 30 & 2 \\
+ & Sports & 0 & 43 \\
 \end{tabular}
-\caption{Confusion Matrix: Naive Bayes + TF-IDF (Low Politics Recall)}
-\label{tab:cm_nb_tfidf}
+\caption{Confusion Matrix: Naive Bayes + BoW (97.33\% Accuracy)}
+\label{tab:cm_nb_bow}
 \end{table}
 
 \subsubsection{SVM + TF-IDF (Best TF-IDF Model)}
@@ -249,20 +249,20 @@ Confusion matrices provide a detailed breakdown of correct and incorrect predict
 
 \subsection{Analysis of Results}
 \begin{itemize}
-    \item \textbf{Perfect Naive Bayes (BoW)}: Achieved 100\% accuracy with perfect precision and recall for both classes. This indicates minimal vocabulary overlap - sports terms like ``goal'', ``win'', and ``team'' are completely distinct from politics terms like ``election'', ``senate'', and ``policy''.
+    \item \textbf{High Baseline Performance}: All models achieved over 96\% accuracy. This indicates that even with a larger and more diverse dataset of 372 documents, the vocabulary remains highly discriminative.
     
-    \item \textbf{Class-Specific Issues with TF-IDF}: Both Naive Bayes and Logistic Regression with TF-IDF show extremely low recall (0.30) for the Politics class. This means 70\% of politics articles were misclassified as sports. The high dimensionality (50,000 features) combined with the small training set (127 samples) likely causes overfitting to sports vocabulary.
+    \item \textbf{Bag-of-Words Superiority}: Logistic Regression and SVM with BoW both achieved 98.67\% accuracy. They misclassified only one politics article as sports, while correctly identifying all 43 sports articles in the test set.
     
-    \item \textbf{SVM Robustness}: SVM maintained 0.97 accuracy across both feature types. It correctly classified all sports articles (100\% recall) while maintaining 90\% recall for politics. This demonstrates SVM's strength in handling high-dimensional sparse data.
+    \item \textbf{Improved TF-IDF Recall}: Unlike the initial small-scale experiment, the larger dataset allowed TF-IDF models to achieve high recall (over 91\%) for both classes. This suggests that the previous poor performance was indeed a result of insufficient data for the high-dimensional TF-IDF space.
     
-    \item \textbf{Macro vs Weighted Averages}: For imbalanced datasets (Politics: 10 samples, Sports: 22 samples), weighted averages better reflect overall performance, though macro averages reveal per-class performance disparities.
+    \item \textbf{SVM and LogReg Robustness}: Both linear models performed identically on the BoW features, demonstrating their effectiveness for text categorization in this domain.
 \end{itemize}
 
 \section{Limitations}
 Despite the high accuracy, the system has limitations:
 \begin{itemize}
-    \item \textbf{Dataset Size}: With only 159 documents, the models are at risk of overfitting. The perfect accuracy of Naive Bayes is likely a symptom of the small test set size (32 samples) rather than true generalization.
-    \item \textbf{Class Imbalance}: The dominance of sports articles could bias the model in a more ambiguous context.
+    \item \textbf{Dataset Size}: While expanded to 372 documents, the dataset remains relatively specialized. High accuracy may partly stem from the specific RSS feeds selected.
+    \item \textbf{Class Imbalance}: Although improved, the dataset still has a 57/43 split between sports and politics.
     \item \textbf{Context Sensitivity}: BoW and TF-IDF ignore word order (mostly). "The team defeated the rival" and "The rival defeated the team" have similar vector representations but opposite meanings.
 \end{itemize}
 

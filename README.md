@@ -81,19 +81,20 @@ This script will:
 We tested three different classification algorithms using two different feature extraction methods. Here is a summary of our findings.
 
 ### Data Collection
-We collected **159 articles** (110 Sports, 49 Politics) using RSS feeds from major news outlets. The data is available in `data/dataset.csv`.
+We collected **372 articles** (213 Sports, 159 Politics) using RSS feeds from major news outlets. The data is available in `data/dataset.csv`.
 
 ### Performance Comparison (Accuracy)
 
 | Model | Bag of Words (BoW) | TF-IDF (1-2 grams) |
 | :--- | :---: | :---: |
-| **Naive Bayes** | **1.00** | 0.78 |
-| **Logistic Regression** | 0.97 | 0.78 |
-| **Support Vector Machine (SVM)** | 0.97 | 0.97 |
+| **Naive Bayes** | 0.97 | 0.96 |
+| **Logistic Regression** | **0.99** | 0.97 |
+| **Support Vector Machine (SVM)** | **0.99** | 0.97 |
 
 ### Analysis
-- **Naive Bayes with Bag of Words** achieved perfect accuracy on our test set. This is likely due to the small dataset size and the very distinct vocabulary between sports ("goal", "win", "team") and politics ("election", "senate", "policy").
-- **TF-IDF Performance**: Interestingly, TF-IDF performed worse for Naive Bayes and Logistic Regression in this specific context. This might be because the dataset is small, and TF-IDF can sometimes over-penalize frequent words that are actually strong class indicators in such distinct categories.
+- **Logistic Regression & SVM with Bag of Words** achieved the highest accuracy of **98.67%**. This demonstrates that for these categories, simple word counts provide enough signal for linear separators to work nearly perfectly.
+- **Improved Dataset Stability**: With 372 articles, the TF-IDF representation became much more stable compared to smaller initial runs, showing high accuracy (96-97%) across all models.
+- **Lexical Distinction**: The vocabulary remains the key driver of performance—distinct terms like "ballot" and "touchdown" allow for very clean class separation.
 
 ## 📁 Project Structure
 
@@ -106,8 +107,8 @@ We collected **159 articles** (110 Sports, 49 Politics) using RSS feeds from maj
 
 ## 📝 Limitations
 
-- **Dataset Size**: With only ~160 articles, the models might be overfitting to specific keywords rather than learning general language patterns.
-- **Class Imbalance**: There are more sports articles than politics articles. While we used stratified splitting, a more balanced dataset would be ideal for a robust production system.
+- **Dataset Size**: While expanded to ~370 articles, real-world generalization would benefit from thousands of documents.
+- **Class Imbalance**: There is a slight bias towards sports articles (57%), though stratified splitting helps mitigate this in testing.
 
 ---
 **Author**: Prasangeet Dongre (B23CH1033)  

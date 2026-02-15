@@ -291,7 +291,7 @@
                 </div>
             </div>
             <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--secondary);">
-                <em>Total Articles Collected: 159 (110 Sports, 49 Politics)</em>
+                <em>Total Articles Collected: 372 (213 Sports, 159 Politics)</em>
             </p>
         </section>
 
@@ -342,31 +342,32 @@ def clean_text(text):
                 <tbody>
                     <tr>
                         <td>Naive Bayes</td>
-                        <td><span class="badge badge-best">100%</span></td>
-                        <td><span class="badge badge-avg">78%</span></td>
-                        <td>Perfect separation with simple counts.</td>
+                        <td><span class="badge badge-good">97.3%</span></td>
+                        <td><span class="badge badge-good">96.0%</span></td>
+                        <td>Very strong with both feature types.</td>
                     </tr>
                     <tr>
                         <td>Logistic Regression</td>
-                        <td><span class="badge badge-good">97%</span></td>
-                        <td><span class="badge badge-avg">78%</span></td>
-                        <td>Strong, but struggled with TF-IDF noise.</td>
+                        <td><span class="badge badge-best">98.7%</span></td>
+                        <td><span class="badge badge-good">97.3%</span></td>
+                        <td>Best performance with BoW features.</td>
                     </tr>
                     <tr>
                         <td>SVM</td>
-                        <td><span class="badge badge-good">97%</span></td>
-                        <td><span class="badge badge-good">97%</span></td>
-                        <td>Most robust across all features.</td>
+                        <td><span class="badge badge-best">98.7%</span></td>
+                        <td><span class="badge badge-good">97.3%</span></td>
+                        <td>Tied for best; highly robust.</td>
                     </tr>
                 </tbody>
             </table>
 
-            <h3>Why did Naive Bayes + BoW win?</h3>
+            <h3>Performance Analysis</h3>
             <p>
-                The vocabulary difference is stark. Sports articles are filled with specialized terms
-                like <em>"score", "win", "league", "coach"</em>, while Politics articles consistently
-                use <em>"election", "vote", "party", "minister"</em>.
-                Detailed confusion matrix for the best model:
+                With the expanded dataset of <strong>372 articles</strong>, our models reached a peak accuracy of
+                <strong>98.7%</strong>.
+                Interestingly, simple frequency-based Bag-of-Words (BoW) features slightly outperformed the more complex
+                TF-IDF representation for both Logistic Regression and SVM.
+                Detailed confusion matrix for the best models (LogReg/SVM + BoW):
             </p>
 
             <table class="confusion-matrix">
@@ -377,13 +378,13 @@ def clean_text(text):
                 </tr>
                 <tr>
                     <th>Sports (Actual)</th>
-                    <td class="correct">22</td>
+                    <td class="correct">43</td>
                     <td class="wrong">0</td>
                 </tr>
                 <tr>
                     <th>Politics (Actual)</th>
-                    <td class="wrong">0</td>
-                    <td class="correct">10</td>
+                    <td class="wrong">1</td>
+                    <td class="correct">31</td>
                 </tr>
             </table>
 
@@ -392,9 +393,12 @@ def clean_text(text):
         <section>
             <h2>📝 Conclusion & Limitations</h2>
             <p>
-                This project demonstrates that for highly distinct topics, simple methods often outperform complex ones.
-                However, our <strong>small dataset (159 docs)</strong> likely led to overfitting in some TF-IDF models.
-                In a real-world scenario, we would need thousands of documents to truly validate these metrics.
+                This project demonstrates that for highly distinct topics, linear models with simple feature
+                representations perform exceptionally well.
+                The expansion to <strong>372 articles</strong> significantly improved the reliability of our metrics
+                compared to the initial pilot.
+                While 98.7% accuracy is high, further validation on thousands of diverse news snippets would be the next
+                step for a production-grade system.
             </p>
         </section>
 

@@ -7,15 +7,15 @@ Loading dataset...
 Cleaning text...
 
 ===== DATASET STATS =====
-Total rows: 159
+Total rows: 372
 
 Label counts:
 label
-sports      110
-politics     49
+sports      213
+politics    159
 Name: count, dtype: int64
 
-Avg words per doc: 874
+Avg words per doc: 448
 =========================
 
 Saved cleaned dataset → data/dataset_clean.csv
@@ -25,15 +25,15 @@ Loading cleaned dataset...
 Splitting train/test...
 
 Building Bag of Words features...
-BoW vocab size: 13236
-BoW train shape: (127, 13236)
+BoW vocab size: 16635
+BoW train shape: (297, 16635)
 BoW features saved
 Loading cleaned dataset...
 Splitting train/test...
 
 Building TFIDF (1–2 gram) features...
 TFIDF vocab size: 50000
-TFIDF train shape: (127, 50000)
+TFIDF train shape: (297, 50000)
 TFIDF features saved
 
 Starting model training step...
@@ -42,40 +42,40 @@ Loading features...
 Training Naive Bayes (BoW)...
 
 ===== NaiveBayes + BoW =====
-Accuracy: 1.0
+Accuracy: 0.9733333333333334
 
 Classification Report:
               precision    recall  f1-score   support
 
-    politics       1.00      1.00      1.00        10
-      sports       1.00      1.00      1.00        22
+    politics       1.00      0.94      0.97        32
+      sports       0.96      1.00      0.98        43
 
-    accuracy                           1.00        32
-   macro avg       1.00      1.00      1.00        32
-weighted avg       1.00      1.00      1.00        32
+    accuracy                           0.97        75
+   macro avg       0.98      0.97      0.97        75
+weighted avg       0.97      0.97      0.97        75
 
 Confusion Matrix:
-[[10  0]
- [ 0 22]]
+[[30  2]
+ [ 0 43]]
 
 Training Naive Bayes (TFIDF)...
 
 ===== NaiveBayes + TFIDF =====
-Accuracy: 0.78125
+Accuracy: 0.96
 
 Classification Report:
               precision    recall  f1-score   support
 
-    politics       1.00      0.30      0.46        10
-      sports       0.76      1.00      0.86        22
+    politics       1.00      0.91      0.95        32
+      sports       0.93      1.00      0.97        43
 
-    accuracy                           0.78        32
-   macro avg       0.88      0.65      0.66        32
-weighted avg       0.83      0.78      0.74        32
+    accuracy                           0.96        75
+   macro avg       0.97      0.95      0.96        75
+weighted avg       0.96      0.96      0.96        75
 
 Confusion Matrix:
-[[ 3  7]
- [ 0 22]]
+[[29  3]
+ [ 0 43]]
 
 Naive Bayes models saved
 Loading features...
@@ -83,40 +83,40 @@ Loading features...
 Training Logistic Regression (BoW)...
 
 ===== LogReg + BoW =====
-Accuracy: 0.96875
+Accuracy: 0.9866666666666667
 
 Classification Report:
               precision    recall  f1-score   support
 
-    politics       1.00      0.90      0.95        10
-      sports       0.96      1.00      0.98        22
+    politics       1.00      0.97      0.98        32
+      sports       0.98      1.00      0.99        43
 
-    accuracy                           0.97        32
-   macro avg       0.98      0.95      0.96        32
-weighted avg       0.97      0.97      0.97        32
+    accuracy                           0.99        75
+   macro avg       0.99      0.98      0.99        75
+weighted avg       0.99      0.99      0.99        75
 
 Confusion Matrix:
-[[ 9  1]
- [ 0 22]]
+[[31  1]
+ [ 0 43]]
 
 Training Logistic Regression (TFIDF)...
 
 ===== LogReg + TFIDF =====
-Accuracy: 0.78125
+Accuracy: 0.9733333333333334
 
 Classification Report:
               precision    recall  f1-score   support
 
-    politics       1.00      0.30      0.46        10
-      sports       0.76      1.00      0.86        22
+    politics       1.00      0.94      0.97        32
+      sports       0.96      1.00      0.98        43
 
-    accuracy                           0.78        32
-   macro avg       0.88      0.65      0.66        32
-weighted avg       0.83      0.78      0.74        32
+    accuracy                           0.97        75
+   macro avg       0.98      0.97      0.97        75
+weighted avg       0.97      0.97      0.97        75
 
 Confusion Matrix:
-[[ 3  7]
- [ 0 22]]
+[[30  2]
+ [ 0 43]]
 
 Logistic Regression models saved
 Loading features...
@@ -124,40 +124,40 @@ Loading features...
 Training SVM (BoW)...
 
 ===== SVM + BoW =====
-Accuracy: 0.96875
+Accuracy: 0.9866666666666667
 
 Classification Report:
               precision    recall  f1-score   support
 
-    politics       1.00      0.90      0.95        10
-      sports       0.96      1.00      0.98        22
+    politics       1.00      0.97      0.98        32
+      sports       0.98      1.00      0.99        43
 
-    accuracy                           0.97        32
-   macro avg       0.98      0.95      0.96        32
-weighted avg       0.97      0.97      0.97        32
+    accuracy                           0.99        75
+   macro avg       0.99      0.98      0.99        75
+weighted avg       0.99      0.99      0.99        75
 
 Confusion Matrix:
-[[ 9  1]
- [ 0 22]]
+[[31  1]
+ [ 0 43]]
 
 Training SVM (TFIDF)...
 
 ===== SVM + TFIDF =====
-Accuracy: 0.96875
+Accuracy: 0.9733333333333334
 
 Classification Report:
               precision    recall  f1-score   support
 
-    politics       1.00      0.90      0.95        10
-      sports       0.96      1.00      0.98        22
+    politics       1.00      0.94      0.97        32
+      sports       0.96      1.00      0.98        43
 
-    accuracy                           0.97        32
-   macro avg       0.98      0.95      0.96        32
-weighted avg       0.97      0.97      0.97        32
+    accuracy                           0.97        75
+   macro avg       0.98      0.97      0.97        75
+weighted avg       0.97      0.97      0.97        75
 
 Confusion Matrix:
-[[ 9  1]
- [ 0 22]]
+[[30  2]
+ [ 0 43]]
 
 SVM models saved
 
