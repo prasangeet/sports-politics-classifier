@@ -48,8 +48,8 @@ To ensure a realistic evaluation, we constructed a dataset from live news source
 \subsection{Sources}
 We targeted high-traffic news outlets known for their distinct categorization. The following RSS feeds were used:
 \begin{itemize}
-    \item \textbf{Sports}: ESPN News Feed, BBC Sport.
-    \item \textbf{Politics}: BBC News Politics, NYT Politics.
+    \item \textbf{Sports}: ESPN News, BBC Sport, Sky Sports Football, The Guardian Sport, and Yahoo Sports.
+    \item \textbf{Politics}: BBC News Politics, NYT Politics, The Guardian Politics, Politico, and Reuters Politics.
 \end{itemize}
 
 \subsection{Extraction Process}
@@ -240,8 +240,8 @@ Confusion matrices provide a detailed breakdown of correct and incorrect predict
 \multicolumn{2}{c}{} & \multicolumn{2}{c}{\textbf{Predicted}} \\
 \multicolumn{2}{c|}{} & Politics & Sports \\
 \cline{2-4}
-\multirow{2}{*}{\textbf{Actual}} & Politics & 9 & 1 \\
- & Sports & 0 & 22 \\
+\multirow{2}{*}{\textbf{Actual}} & Politics & 30 & 2 \\
+ & Sports & 0 & 43 \\
 \end{tabular}
 \caption{Confusion Matrix: SVM + TF-IDF (Consistent Performance)}
 \label{tab:cm_svm_tfidf}
