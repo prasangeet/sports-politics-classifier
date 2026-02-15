@@ -69,7 +69,7 @@ def main():
         collect_from_feeds(SPORT_FEEDS, "sports", writer)
         collect_from_feeds(POLITICS_FEEDS, "politics", writer)
 
-    print("\n✅ Dataset collection complete")
+    print("\nDataset collection complete")
 
 
 if __name__ == "__main__":
